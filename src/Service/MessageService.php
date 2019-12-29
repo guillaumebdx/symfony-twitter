@@ -17,6 +17,8 @@ class MessageService extends AbstractAuth
     private $searchUrl = 'search/tweets';
     
     private $showUrl = 'statuses/show';
+    
+    private $retweetUrl = 'statuses/retweets';
 
     /**
      * Search tweets
@@ -26,9 +28,8 @@ class MessageService extends AbstractAuth
     public function search(array $keywords = [], array $options = [])
     {
         try {
-            if (empty($options)) {
-                $options = $this->generateDefaultOption();
-            }
+            
+            $options = array_merge($this->generateDefaultOption(), $options);
             $options['q'] = implode(' ', $keywords);
             $result = $this->client->get($this->searchUrl, $options);
             if (!empty($result->errors)) {
@@ -60,6 +61,21 @@ class MessageService extends AbstractAuth
             echo 'Un problème est survenu : ' . $e->getMessage();
         }
     }
+
+    public function getRetweetsById(int $id, array $options = [])
+    {
+        try {
+            $options['id']         = $id;
+            $options['tweet_mode'] = 'extended';
+            $result = $this->client->get($this->retweetUrl, $options);
+            if (!empty($result->errors)) {
+                $this->handleError($result->errors);
+            }
+            dd($result);
+        } catch (\Exception $e) {
+            echo 'Un problème est survenu : ' . $e->getMessage();
+        }
+    }
     /**
      * Generate Default Option
      * @return array
@@ -72,6 +88,7 @@ class MessageService extends AbstractAuth
             'extended_tweet' => 'full_text',
             'lang'           => 'fr',
             'tweet_mode'     => 'extended',
+            'include_rts'    => false,
             ];
     }
 }

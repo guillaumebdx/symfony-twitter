@@ -22,8 +22,11 @@ class MessageController extends AbstractController
     {
         $message->search(
             [
-                'mais',
+                'macron',
                 'oui'
+            ],
+            [
+                'exclude_replies' => true,
             ]
             );
     }
@@ -35,5 +38,14 @@ class MessageController extends AbstractController
     public function showById(MessageService $message, $id)
     {
         $message->getOneById($id);
+    }
+
+    /**
+     * @Route("/retweets/{id}", name="retweets")
+     * @param MessageService $message
+     */
+    public function showRetweets(MessageService $message, $id)
+    {
+        $message->getRetweetsById($id);
     }
 }
