@@ -19,6 +19,12 @@ class MessageController extends AbstractController
      */
     public function search(MessageService $message)
     {
-        $message->search();
+        $message->search(
+            [
+                'mais',
+                'oui'
+                
+            ]
+            );
     }
 }
