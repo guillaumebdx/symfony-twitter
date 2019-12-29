@@ -49,7 +49,8 @@ class MessageService extends AbstractAuth
     public function getOneById(int $id, array $options = [])
     {
         try {
-            $options['id'] = $id;
+            $options['id']         = $id;
+            $options['tweet_mode'] = 'extended';
             $result = $this->client->get($this->showUrl, $options);
             if (!empty($result->errors)) {
                 $this->handleError($result->errors);
@@ -70,6 +71,7 @@ class MessageService extends AbstractAuth
             'count'          => self::MAX_TWEET,
             'extended_tweet' => 'full_text',
             'lang'           => 'fr',
+            'tweet_mode'     => 'extended',
             ];
     }
 }
