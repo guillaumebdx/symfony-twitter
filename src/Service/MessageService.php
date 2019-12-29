@@ -15,6 +15,8 @@ class MessageService extends AbstractAuth
      * @var string
      */
     private $searchUrl = 'search/tweets';
+    
+    private $showUrl = 'statuses/show';
 
     /**
      * Search tweets
@@ -39,6 +41,24 @@ class MessageService extends AbstractAuth
         
     }
 
+    /**
+     * 
+     * @param int $id
+     * @param array $options
+     */
+    public function getOneById(int $id, array $options = [])
+    {
+        try {
+            $options['id'] = $id;
+            $result = $this->client->get($this->showUrl, $options);
+            if (!empty($result->errors)) {
+                $this->handleError($result->errors);
+            }
+            dd($result);
+        } catch (\Exception $e) {
+            echo 'Un problème est survenu : ' . $e->getMessage();
+        }
+    }
     /**
      * Generate Default Option
      * @return array
