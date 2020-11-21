@@ -20,7 +20,7 @@ class MessageController extends AbstractController
      */
     public function search(MessageService $message)
     {
-        echo 'hello world';
+        echo 'hello world';die;
         $message->search(
             [
                 'macron',
