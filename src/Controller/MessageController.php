@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Repository\CityRepository;
+use App\Service\EmojiService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\MessageService;
 
 /**
- * 
+ *
  * @author guillaume
  * @Route("/message", name="message_")
  *
@@ -20,7 +23,6 @@ class MessageController extends AbstractController
      */
     public function search(MessageService $message)
     {
-        echo 'hello world';die;
         $message->search(
             [
                 'macron',
@@ -48,5 +50,21 @@ class MessageController extends AbstractController
     public function showRetweets(MessageService $message, $id)
     {
         $message->getRetweetsById($id);
+    }
+
+    /**
+     * @Route("/write", name="write")
+     * @param MessageService $message
+     */
+    public function write(EmojiService $emoji, MessageService $message, CityRepository $cityRepository, EntityManagerInterface $entityManager)
+    {
+        $city = $cityRepository->findOneBy(['isDone' => false]);
+        $message->write('Allez ' . $city->getName() . ' !!! ' . $emoji->getRandomEmoji());
+        $city->setIsDone(true);
+        $entityManager->persist($city);
+        $entityManager->flush();
+        dd($city);
+
+
     }
 }
