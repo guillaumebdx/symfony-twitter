@@ -1,0 +1,12 @@
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% extends 'base.html.twig' %}
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary">Supporte cette équipe !</button>
+    {{ form_end(form) }}
+    <p>
+        La ville que vous allez indiquer sera affichée sur le réseau social Twitter. Vous êtes responsable de son contenu.
+    </p>
+
+{% endblock %}

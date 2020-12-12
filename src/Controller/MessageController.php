@@ -25,7 +25,7 @@ class MessageController extends AbstractController
     {
         $message->search(
             [
-                'macron',
+                'guillaume',
                 'oui'
             ],
             [

@@ -19,6 +19,11 @@ class CityRepository extends ServiceEntityRepository
         parent::__construct($registry, City::class);
     }
 
+    public function findLastCustomCity()
+    {
+        return $this->findOneBy(['isDone' => false, 'isCustom' => true]);
+    }
+
     // /**
     //  * @return City[] Returns an array of City objects
     //  */

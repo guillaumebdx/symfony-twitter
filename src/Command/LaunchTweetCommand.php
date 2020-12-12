@@ -53,8 +53,9 @@ class LaunchTweetCommand extends Command
         OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
-        $city = $this->cityRepository->findOneBy(['isDone' => false]);
+        $customCity = $this->cityRepository->findLastCustomCity();
+        $city       = $this->cityRepository->findOneBy(['isDone' => false]);
+        $city       = $customCity ?? $city;
         $this->message->write('Allez ' . $city->getName() . ' !!! ' . $this->emoji->getRandomEmoji());
         $city->setIsDone(true);
         $this->entityManager->persist($city);
